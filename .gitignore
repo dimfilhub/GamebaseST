@@ -1,0 +1,5 @@
+/data/*
+!/data/hatari/
+/build/
+/sources/
+/dist/
