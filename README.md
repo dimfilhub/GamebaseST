@@ -1,6 +1,6 @@
 # GamebaseST
 
-A desktop browser for the **GameBase ST** collection of Atari ST games. It reads the bundled game database (`atarist.sqlite3`), shows each game's metadata, screenshot, cover, music and extras (manuals, maps, hints, box scans…), and launches games in the [Hatari](https://hatari.tuxfamily.org/) emulator with one click.
+A desktop browser for the **GameBase ST** collection of Atari ST games. It reads the bundled game database (`atarist.sqlite3` converted from original mdb file for easier access), shows each game's metadata, screenshot, cover, music and extras (manuals, maps, hints, box scans…), and launches games in the [Hatari](https://hatari.tuxfamily.org/) emulator with one click.
 
 The app does not ship the game files. You supply the GameBase ST source zips, and the app extracts them into a `data/` folder.
 
@@ -95,9 +95,7 @@ Open **Settings…** from the main window. Everything is saved in `config.json` 
 | **Hatari executable** | Path to the Hatari executable or `Hatari.app`. If it is empty, the app searches `HATARI_PATH`, the saved setting, `data/hatari/hatari.exe`, your `PATH`, and the usual install locations (`/Applications`, Homebrew, Program Files). |
 | **Data folder** | Point the app at a data folder elsewhere, for example on an external drive. If the new folder has no structure or no game files, the app offers to open the *Populate folders* window for it. |
 
-The data folder is resolved in this order: the `data` argument in code, the `GAMEBASE_DATA` environment variable, the folder saved in Settings, then `./data`. The sources folder is set in the *Populate folders* window.
 
-`config.json` keys: `controller`, `joystick_keys`, `hatari`, `data_dir`, `sources_dir`.
 
 ## Building a standalone app
 
