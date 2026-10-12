@@ -20,7 +20,7 @@ args = [
     "--add-data", f"images{separator}images",
     "--add-data", f"README.md{separator}.",
 ]
-if sys.platform == "win32":
+if sys.platform != "darwin":  # Windows/Linux: single executable in dist/, next to the database
     args.append("--onefile")
 PyInstaller.__main__.run(args)
 

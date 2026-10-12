@@ -25,7 +25,7 @@ The app does not ship the game files. You supply the GameBase ST source zips, an
 - Python 3 with Tk (the standard `tkinter`)
 - [Pillow](https://python-pillow.org/) (`pip install -r requirements.txt`)
 - [Hatari](https://hatari.tuxfamily.org/) to launch games. Browsing works without it.
-- A TOS image at `data/hatari/tos.img`. The `data/hatari/atari_keys` Hatari config is included.
+- A TOS image saved as `data/hatari/tos.img`. The repository does not include one, because TOS is copyrighted: supply your own dump of an Atari ST ROM, or use the free [EmuTOS](https://emutos.sourceforge.io/). **TOS 1.04 (Rev. 2) is recommended** for the best game compatibility. The `data/hatari/atari_keys` Hatari config is included.
 
 Run the app:
 

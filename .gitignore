@@ -5,3 +5,9 @@
 /dist/
 /atarist.mdb
 __pycache__/
+/data/hatari/tos.img
+/config.json
+/GamebaseST.spec
+.idea/
+.venv/
+.DS_Store
