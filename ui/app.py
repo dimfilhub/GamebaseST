@@ -12,6 +12,7 @@ from text import clean
 from ui.about_dialog import AboutDialog
 from ui.action_buttons import ActionButtons
 from ui.game_list_panel import GameListPanel
+from ui.help_dialog import HelpDialog
 from ui.image_preview import PLACEHOLDER_CREDIT, ImagePreview
 from ui.info_tabs import InfoTabs
 from ui.populate_dialog import PopulateDialog
@@ -70,9 +71,13 @@ class App(tk.Tk):
         options.add_command(label="Settings…", command=self.open_settings)
         menubar.add_cascade(label="Options", menu=options)
         help_menu = tk.Menu(menubar, tearoff=False)
+        help_menu.add_command(label=f"{APP_NAME} Help", command=self.open_help)
         help_menu.add_command(label=f"About {APP_NAME}…", command=self.open_about)
         menubar.add_cascade(label="Help", menu=help_menu)
         self.config(menu=menubar)
+
+    def open_help(self):
+        HelpDialog(self, APP_NAME)
 
     def open_about(self):
         AboutDialog(self, APP_NAME, APP_VERSION)
@@ -102,7 +107,7 @@ class App(tk.Tk):
         self.preview.pack(side="left", anchor="n")
         self.buttons = ActionButtons(bottom, {
             "shot": self.show_screenshot, "cover": self.show_cover,
-            "game": self.reveal_game, "music": self.open_music,
+            "game": self.reveal_game,
             "launch": self.launch, "populate": self.open_populate, "settings": self.open_settings,
             "quit": self.destroy,
         })
@@ -138,8 +143,7 @@ class App(tk.Tk):
         has_shot = exists(self.assets.screenshot(game))
         cover = self.assets.cover(game)
         self.buttons.set_enabled(game=has_zip, launch=has_zip, shot=has_shot,
-                                 cover=bool(cover),
-                                 music=exists(self.assets.music(game)))
+                                 cover=bool(cover))
         # Screenshot is the default; fall back to the cover when there is none.
         if has_shot or not cover:
             self.show_screenshot()
@@ -170,11 +174,6 @@ class App(tk.Tk):
         p = self.assets.game_file(self.current) if self.current else None
         if exists(p):
             self.os.reveal(p)
-
-    def open_music(self):
-        p = self.assets.music(self.current) if self.current else None
-        if exists(p):
-            self.os.open(p)
 
     def choose_hatari(self):
         p = filedialog.askopenfilename(title="Select the Hatari executable (or Hatari.app)")

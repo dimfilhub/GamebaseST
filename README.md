@@ -9,8 +9,16 @@ The app does not ship the game files. You supply the GameBase ST source zips, an
 - **Browse and filter** the game list by year, publisher, genre and more, using the dropdown filters.
 - **Game details**: the *Info* tab (publisher, developer, programmer, artist, musician, genre, language, players, rating, controls, version…), the *Notes* tab (comments and memo) and the *Extras* tab (manuals, maps, solutions, reviews and so on, with missing files marked).
 - **Preview**: switch between the in-game screenshot and the front cover (a generated cover, or the front box scan).
-- **Action buttons**: *Screenshot*, *Cover*, *Reveal game file* (show the zip in Finder/Explorer), *Open music* and *Launch in Hatari*.
+- **Action buttons**: *Screenshot*, *Cover*, *Reveal game file* (show the zip in Finder/Explorer), and *Launch in Hatari*.
 - **Launch in Hatari**: extracts the game's disk image(s) (`.st`, `.msa`, `.stx`, `.dim`, `.ipf`, `.ctr`, `.raw`) from its zip into `data/cache/run/<id>`, then starts Hatari as an Atari ST with 1 MB of RAM and the TOS image in `data/hatari/tos.img`. It runs fullscreen on a TV monitor, and if the zip holds two disks they are loaded as drives A and B.
+
+## Using the app
+
+- **Search**: type in the *Search* field above the list to filter games by name as you type. Click **Clear** to empty the field and show all games again.
+- **Filters**: the dropdowns below the search box narrow the list by year, publisher, genre and more. They combine with the search text.
+- **Selecting a game**: click a game in the list to see its screenshot, details and extras. Buttons are greyed out when the matching file is missing.
+- **Launching a game**: select it and click **Launch in Hatari**, or double-click it in the list. Hatari must be installed (see *Settings*), and the game's zip must be present in the data folder.
+- **Other buttons**: **Populate folders…** extracts the source zips, **Settings…** configures the controller, Hatari and data folder, and **Quit** closes the app.
 
 ## Requirements
 
@@ -43,7 +51,7 @@ data/
 
 ### 1. Get the source zips
 
-Download the GameBase ST zips from the GameBase ST project on the AtariAge forum: <https://forums.atariage.com/topic/320777-gamebase-st/>. All credit for the GameBase ST data and files goes to that project and its contributors.
+The app does not include the game files, so you must download them first. At minimum you need `GAMES-ST.zip` (the games); `Screenshots (all).zip`, `MUSIC.zip` and the `Extras` zips are optional but fill in the previews and extras. Download the GameBase ST zips from the GameBase ST project on the AtariAge forum: <https://forums.atariage.com/topic/320777-gamebase-st/>. All credit for the GameBase ST data and files goes to that project and its contributors.
 
 Put them in the **sources folder** (default `./sources`):
 

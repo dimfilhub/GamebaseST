@@ -18,6 +18,7 @@ args = [
     "--windowed",
     "--noconfirm",
     "--add-data", f"images{separator}images",
+    "--add-data", f"README.md{separator}.",
 ]
 if sys.platform == "win32":
     args.append("--onefile")

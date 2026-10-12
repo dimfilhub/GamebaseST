@@ -24,6 +24,8 @@ class GameListPanel(ttk.Frame):
         row.pack(fill="x")
         ttk.Label(row, text="Search:").pack(side="left")
         ttk.Entry(row, textvariable=self.search).pack(side="left", fill="x", expand=True, padx=(4, 0))
+        ttk.Button(row, text="Clear", width=6,
+                   command=lambda: self.search.set("")).pack(side="left", padx=(4, 0))
 
         # Two rows of dropdown filters; the second column lines up in both rows.
         filt = ttk.Frame(self)
