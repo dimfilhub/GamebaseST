@@ -12,6 +12,32 @@ The app does not ship the game files. You supply the GameBase ST source zips, an
 - **Action buttons**: *Screenshot*, *Cover*, *Reveal game file* (show the zip in Finder/Explorer), and *Launch in Hatari*.
 - **Launch in Hatari**: extracts the game's disk image(s) (`.st`, `.msa`, `.stx`, `.dim`, `.ipf`, `.ctr`, `.raw`) from its zip into `data/cache/run/<id>`, then starts Hatari as an Atari ST with 1 MB of RAM and the TOS image in `data/hatari/tos.img`. It runs fullscreen on a TV monitor, and if the zip holds two disks they are loaded as drives A and B.
 
+## Screenshots
+
+**Main window with the filter dropdowns**
+
+![Main window with the filter dropdowns](images/screenshots/screenshot-1.jpg)
+
+**Searching and selecting a game**
+
+![Game selected, showing its screenshot and info](images/screenshots/screenshot-2.jpg)
+
+**Settings**
+
+![Settings window](images/screenshots/screenshot-3.jpg)
+
+**Help**
+
+![Help window](images/screenshots/screenshot-4.jpg)
+
+**About**
+
+![About window](images/screenshots/screenshot-5.jpg)
+
+**Populate folders**
+
+![Populate folders window](images/screenshots/screenshot-6.jpg)
+
 ## Using the app
 
 - **Search**: type in the *Search* field above the list to filter games by name as you type. Click **Clear** to empty the field and show all games again.
