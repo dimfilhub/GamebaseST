@@ -14,6 +14,10 @@ The app does not ship the game files. You supply the GameBase ST source zips, an
 
 ## Screenshots
 
+**About**
+
+![About window](images/screenshots/screenshot-5.jpg)
+
 **Main window with the filter dropdowns**
 
 ![Main window with the filter dropdowns](images/screenshots/screenshot-1.jpg)
@@ -29,10 +33,6 @@ The app does not ship the game files. You supply the GameBase ST source zips, an
 **Help**
 
 ![Help window](images/screenshots/screenshot-4.jpg)
-
-**About**
-
-![About window](images/screenshots/screenshot-5.jpg)
 
 **Populate folders**
 
