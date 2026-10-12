@@ -5,7 +5,7 @@ from tkinter import ttk
 from ui.populate_dialog import SOURCES_URL
 from ui.style import BACKGROUND_COLOR
 
-ABOUT_TEXT = ("A browser and launcher for the GameBase ST collection.\n\n"
+ABOUT_TEXT = ("GamebaseST Browser and Player: a browser and launcher for the GameBase ST collection.\n\n"
               "@Dimfil 2026\n\n"
               "Game data and files come from the GameBase ST project on the AtariAge forum. "
               "All credit goes to the GameBase ST project and its contributors.")

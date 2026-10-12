@@ -19,7 +19,7 @@ from ui.populate_dialog import PopulateDialog
 from ui.settings_dialog import SettingsDialog
 from ui.style import AppStyle
 
-APP_NAME = "GameBase ST"
+APP_NAME = "GamebaseST Browser and Player"
 APP_VERSION = "1.0"
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".bmp"}
 

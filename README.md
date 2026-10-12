@@ -1,6 +1,6 @@
-# GamebaseST
+# GamebaseST Browser and Player
 
-A desktop browser for the **GameBase ST** collection of Atari ST games. It reads the bundled game database (`atarist.sqlite3` converted from original mdb file for easier access), shows each game's metadata, screenshot, cover, music and extras (manuals, maps, hints, box scans…), and launches games in the [Hatari](https://hatari.tuxfamily.org/) emulator with one click.
+GamebaseST Browser and Player is a desktop browser and player for the **GameBase ST** collection of Atari ST games. It reads the bundled game database (`atarist.sqlite3` converted from original mdb file for easier access), shows each game's metadata, screenshot, cover, music and extras (manuals, maps, hints, box scans…), and launches games in the [Hatari](https://hatari.tuxfamily.org/) emulator with one click.
 
 The app does not ship the game files. You supply the GameBase ST source zips, and the app extracts them into a `data/` folder.
 
