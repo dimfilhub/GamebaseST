@@ -144,3 +144,7 @@ This builds with PyInstaller into `dist/`, and copies `atarist.sqlite3` and `dat
 
 - Game data and files: the GameBase ST project and its contributors (AtariAge forum link above).
 - Banner photo: "Atari 1040 ST FM with a monochrome monitor" by Felix Winkelnkemper, CC BY-SA 4.0. See `images/CREDITS.txt`.
+
+## License
+
+The code is released under the [MIT License](LICENSE). The GameBase ST data and the banner photo are covered by their own terms, as described in Credits.
