@@ -25,7 +25,7 @@ class GameListPanel(ttk.Frame):
         ttk.Label(row, text="Search:").pack(side="left")
         ttk.Entry(row, textvariable=self.search).pack(side="left", fill="x", expand=True, padx=(4, 0))
         ttk.Button(row, text="Clear", width=6,
-                   command=lambda: self.search.set("")).pack(side="left", padx=(4, 0))
+                   command=self.clear_filters).pack(side="left", padx=(4, 0))
 
         # Two rows of dropdown filters; the second column lines up in both rows.
         filt = ttk.Frame(self)
@@ -60,6 +60,13 @@ class GameListPanel(ttk.Frame):
         self.tree.pack(fill="both", expand=True)
         self.tree.bind("<<TreeviewSelect>>", lambda _e: self.notify_selection())
         self.tree.bind("<Double-1>", self._double_click)
+
+    def clear_filters(self):
+        """Empty the search box and set every dropdown back to (all)."""
+        for box in self.filters:
+            box.reset()
+        self.search.set("")  # triggers the refresh when the text changed
+        self.refresh()
 
     def _fill_filters(self):
         for box in self.filters:

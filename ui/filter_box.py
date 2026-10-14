@@ -27,6 +27,9 @@ class FilterBox(ttk.Frame):
         values = sorted({self.value(g) for g in games} - {""}, key=str.casefold)
         self.combo["values"] = [ALL] + values
 
+    def reset(self):
+        self.var.set(ALL)
+
     def matches(self, game):
         selected = self.var.get()
         return selected == ALL or self.value(game) == selected
