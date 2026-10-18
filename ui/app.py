@@ -29,7 +29,7 @@ class App(tk.Tk):
 
     def __init__(self, layout=None):
         super().__init__()
-        self.title(f"{APP_NAME} {APP_VERSION}")
+        self.title(f"{APP_NAME} {APP_VERSION} © DimFil 2026")
         self._maximize()
 
         self.layout = layout or DataLayout()
