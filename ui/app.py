@@ -24,7 +24,7 @@ from ui.standalone_dialog import StandaloneDialog
 from ui.style import AppStyle
 
 APP_NAME = "GamebaseST Browser and Player"
-APP_VERSION = "1.1.0"
+APP_VERSION = "1.1.1"
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".bmp"}
 
 

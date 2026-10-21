@@ -14,6 +14,8 @@ from tkinter import messagebox
 SPLASH_MAX = (640, 480)
 HATARI_AFTER_MS = 1500   # Hatari starts while the splash is still showing
 SPLASH_MS = 3000
+NOTICE = ("Made with GamebaseST \u00a9 DimFil 2026. The creator of the builder has no responsibility "
+          "for the game or the TOS included in this bundle.")
 
 
 def payload_dir():
@@ -66,7 +68,9 @@ def show_splash(root, payload, info):
     tk.Label(root, text=info["name"], foreground="white", background="black",
              font=("Helvetica", 18, "bold")).pack(pady=(10, 0))
     tk.Label(root, text="Loading...", foreground="#bbbbbb", background="black",
-             font=("Helvetica", 12)).pack(pady=(0, 10))
+             font=("Helvetica", 12)).pack(pady=(0, 6))
+    tk.Label(root, text=NOTICE, foreground="#888888", background="black", font=("Helvetica", 10),
+             wraplength=image.width - 20, justify="center").pack(pady=(0, 10))
     root.update_idletasks()
     x = (root.winfo_screenwidth() - root.winfo_reqwidth()) // 2
     y = (root.winfo_screenheight() - root.winfo_reqheight()) // 2
