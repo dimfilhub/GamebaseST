@@ -18,6 +18,7 @@ args = [
     "--windowed",
     "--noconfirm",
     "--add-data", f"images{separator}images",
+    "--add-data", f"launcher{separator}launcher",
     "--add-data", f"README.md{separator}.",
 ]
 if sys.platform != "darwin":  # Windows/Linux: single executable in dist/, next to the database

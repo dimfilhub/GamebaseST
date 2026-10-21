@@ -15,6 +15,28 @@ JOYSTICK_ACTIONS = (("kUp", "Up"), ("kDown", "Down"), ("kLeft", "Left"),
 DEFAULT_JOYSTICK_KEYS = {"kUp": "Up", "kDown": "Down", "kLeft": "Left",
                          "kRight": "Right", "kFire": "Space"}
 CONTROLLERS = ("keyboard", "joystick")
+# Same setup as the atari-compilation-disks project
+HATARI_OPTIONS = ["--machine", "st", "--monitor", "tv", "--fullscreen", "--memsize", "1",
+                  "--statusbar", "FALSE", "--drive-led", "TRUE", "--confirm-quit", "FALSE"]
+
+
+def joystick_option(controller):
+    return ["--joy1", "keys" if controller == "keyboard" else "real"]
+
+
+def config_with_keys(src: Path, keys):
+    """Text of the Hatari config `src` with `keys` applied to [Joystick1]."""
+    lines = src.read_text(encoding="utf-8", errors="surrogateescape").splitlines(keepends=True)
+    section = None
+    for i, line in enumerate(lines):
+        s = line.strip()
+        if s.startswith("["):
+            section = s.casefold()
+        elif section == "[joystick1]" and "=" in s:
+            name = s.split("=", 1)[0].strip()
+            if name in keys:
+                lines[i] = f"{name} = {keys[name]}\n"
+    return "".join(lines)
 
 
 def load_controller_settings(config: Config):
@@ -113,19 +135,9 @@ class HatariLauncher:
         src = self.layout.hatari_config
         if keys == DEFAULT_JOYSTICK_KEYS or not src.is_file():
             return src
-        lines = src.read_text(encoding="utf-8", errors="surrogateescape").splitlines(keepends=True)
-        section = None
-        for i, line in enumerate(lines):
-            s = line.strip()
-            if s.startswith("["):
-                section = s.casefold()
-            elif section == "[joystick1]" and "=" in s:
-                name = s.split("=", 1)[0].strip()
-                if name in keys:
-                    lines[i] = f"{name} = {keys[name]}\n"
         out = self.layout.cache / "hatari_run.cfg"
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text("".join(lines), encoding="utf-8", errors="surrogateescape")
+        out.write_text(config_with_keys(src, keys), encoding="utf-8", errors="surrogateescape")
         return out
 
     def launch(self, hatari, game, zip_path, file_to_run):
@@ -135,14 +147,12 @@ class HatariLauncher:
             raise LaunchError(f"{game.name}\n\n{e}") from e
         if not self.layout.tos_image.is_file():
             raise LaunchError(f"TOS image not found:\n{self.layout.tos_image}")
-        # Same setup as the atari-compilation-disks project
         controller, keys = load_controller_settings(self.config)
         cmd = [
-            str(hatari), "--joy1", "keys" if controller == "keyboard" else "real",
+            str(hatari), *joystick_option(controller),
             "--configfile", str(self._config_with_keys(keys)),
             "--tos", str(self.layout.tos_image),
-            "--machine", "st", "--monitor", "tv", "--fullscreen", "--memsize", "1",
-            "--statusbar", "FALSE", "--drive-led", "TRUE", "--confirm-quit", "FALSE",
+            *HATARI_OPTIONS,
             "--disk-a", str(disks[0]),
         ]
         if len(disks) > 1:

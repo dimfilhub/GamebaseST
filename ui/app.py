@@ -1,4 +1,6 @@
+import threading
 import tkinter as tk
+from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
 from assets import GameAssets, exists
@@ -7,6 +9,7 @@ from data_audit import DataAudit
 from data_layout import DataLayout
 from hatari import DiskPreparer, HatariLauncher, HatariLocator, LaunchError
 from repository import GameRepository
+from standalone import StandaloneBuilder, StandaloneError
 from system import OperatingSystem
 from text import clean
 from ui.about_dialog import AboutDialog
@@ -17,10 +20,11 @@ from ui.image_preview import PLACEHOLDER_CREDIT, ImagePreview
 from ui.info_tabs import InfoTabs
 from ui.populate_dialog import PopulateDialog
 from ui.settings_dialog import SettingsDialog
+from ui.standalone_dialog import StandaloneDialog
 from ui.style import AppStyle
 
 APP_NAME = "GamebaseST Browser and Player"
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0"
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".bmp"}
 
 
@@ -39,6 +43,8 @@ class App(tk.Tk):
         self.locator = HatariLocator(self.layout, Config(self.layout.config_file))
         self.settings = Config(self.layout.config_file)
         self.launcher = HatariLauncher(self.layout, DiskPreparer(self.layout), self.settings)
+        self.standalone = StandaloneBuilder(self.layout, DiskPreparer(self.layout), self.settings)
+        self.building = False  # a standalone app is being built in the background
         self.current = None  # currently selected Game
 
         AppStyle(self).apply()
@@ -108,7 +114,8 @@ class App(tk.Tk):
         self.buttons = ActionButtons(bottom, {
             "shot": self.show_screenshot, "cover": self.show_cover,
             "game": self.reveal_game,
-            "launch": self.launch, "populate": self.open_populate, "settings": self.open_settings,
+            "launch": self.launch, "standalone": self.create_standalone,
+            "populate": self.open_populate, "settings": self.open_settings,
             "quit": self.destroy,
         })
         self.buttons.pack(side="left", fill="y", padx=8)
@@ -143,7 +150,7 @@ class App(tk.Tk):
         has_shot = exists(self.assets.screenshot(game))
         cover = self.assets.cover(game)
         self.buttons.set_enabled(game=has_zip, launch=has_zip, shot=has_shot,
-                                 cover=bool(cover))
+                                 cover=bool(cover), standalone=has_zip and not self.building)
         # Screenshot is the default; fall back to the cover when there is none.
         if has_shot or not cover:
             self.show_screenshot()
@@ -197,6 +204,64 @@ class App(tk.Tk):
             self.launcher.launch(hatari, game, zp, clean(self.repo.file_to_run(game.id)))
         except LaunchError as e:
             messagebox.showerror("Cannot launch", str(e))
+
+    def create_standalone(self):
+        """Bundle the selected game with Hatari and EmuTOS into an app for this operating system."""
+        game = self.current
+        zp = self.assets.game_file(game) if game else None
+        if not exists(zp) or self.building:
+            return
+        hatari = self.locator.find() or self.choose_hatari()
+        if not hatari:
+            return
+        dialog = StandaloneDialog(self, real_available=self.layout.tos_image.is_file())
+        self.wait_window(dialog)
+        if not dialog.result:
+            return
+        tos = dialog.result
+        dest = filedialog.askdirectory(
+            title="Folder for the standalone app", mustexist=True, parent=self,
+            initialdir=self.settings.get("standalone_dir") or str(Path.home() / "Desktop"))
+        if not dest:
+            return
+        self.settings.set("standalone_dir", dest)
+        target = self.standalone.app_path(dest, game)
+        if target.exists() and not messagebox.askyesno(
+                "Standalone app", f"{target.name} already exists in this folder. Replace it?"):
+            return
+        shot, cover = self.assets.screenshot(game), self.assets.cover(game)
+        splash = shot if exists(shot) else cover
+        file_to_run = clean(self.repo.file_to_run(game.id))
+        result = {}
+
+        def work():
+            try:
+                result["app"] = self.standalone.build(hatari, game, zp, file_to_run, dest,
+                                                      splash=splash, icon=cover or splash,
+                                                      tos=tos)
+            except StandaloneError as e:
+                result["error"] = str(e)
+
+        self.building = True
+        self.buttons.set_enabled(standalone=False)
+        self.config(cursor="watch")
+        worker = threading.Thread(target=work, daemon=True)
+        worker.start()
+        self._await_standalone(worker, result, game)
+
+    def _await_standalone(self, worker, result, game):
+        if worker.is_alive():
+            self.after(200, self._await_standalone, worker, result, game)
+            return
+        self.building = False
+        self.config(cursor="")
+        self.buttons.set_enabled(standalone=self.current is not None
+                                 and exists(self.assets.game_file(self.current)))
+        if "app" in result:
+            messagebox.showinfo("Standalone app", f"Created {result['app'].name}", parent=self)
+            self.os.reveal(result["app"])
+        else:
+            messagebox.showerror("Standalone app", result.get("error", "Unknown error"), parent=self)
 
     def destroy(self):
         self.repo.close()

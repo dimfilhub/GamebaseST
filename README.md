@@ -9,7 +9,7 @@ The app does not ship the game files. You supply the GameBase ST source zips, an
 - **Browse and filter** the game list by year, publisher, genre and more, using the dropdown filters.
 - **Game details**: the *Info* tab (publisher, developer, programmer, artist, musician, genre, language, players, rating, controls, version…), the *Notes* tab (comments and memo) and the *Extras* tab (manuals, maps, solutions, reviews and so on, with missing files marked).
 - **Preview**: switch between the in-game screenshot and the front cover (a generated cover, or the front box scan).
-- **Action buttons**: *Screenshot*, *Cover*, *Reveal game file* (show the zip in Finder/Explorer), and *Launch in Hatari*.
+- **Action buttons**: *Screenshot*, *Cover*, *Reveal game file* (show the zip in Finder/Explorer), *Launch in Hatari*, and *Create standalone app…*.
 - **Launch in Hatari**: extracts the game's disk image(s) (`.st`, `.msa`, `.stx`, `.dim`, `.ipf`, `.ctr`, `.raw`) from its zip into `data/cache/run/<id>`, then starts Hatari as an Atari ST with 1 MB of RAM and the TOS image in `data/hatari/tos.img`. It runs fullscreen on a TV monitor, and if the zip holds two disks they are loaded as drives A and B.
 
 ## Screenshots
@@ -44,12 +44,13 @@ The app does not ship the game files. You supply the GameBase ST source zips, an
 - **Filters**: the dropdowns below the search box narrow the list by year, publisher, genre and more. They combine with the search text.
 - **Selecting a game**: click a game in the list to see its screenshot, details and extras. Buttons are greyed out when the matching file is missing.
 - **Launching a game**: select it and click **Launch in Hatari**, or double-click it in the list. Hatari must be installed (see *Settings*), and the game's zip must be present in the data folder.
+- **Create standalone app…**: bundles the selected game into an app for the operating system you are running, with Hatari, a TOS image (you choose EmuTOS or your own original TOS, after a copyright notice that makes you fully responsible for what you share), the game's disk image(s), your joystick settings, and the game's screenshot as a splash screen and icon. macOS gives `<Game>.app`; Windows and Linux give a `<Game>` folder with the executable in it (zip it to share). Game saves are kept in the user's data folder (`~/Library/Application Support`, `%APPDATA%` or `~/.local/share`). Requirements: [PyInstaller](https://pyinstaller.org/) (`pip install pyinstaller pillow`) in the Python that runs GamebaseST; it cannot cross-compile, so build on the OS you are targeting. EmuTOS is taken from your Hatari install (the free image shipped with Hatari for macOS and Windows) or from `data/hatari/emutos.img`; your own `data/hatari/tos.img` is only bundled if you pick it in the dialog. On macOS the app is ad-hoc signed, so on another Mac the first launch needs right-click → Open. On Linux only the `hatari` binary is bundled, so the target needs SDL2 installed.
 - **Other buttons**: **Populate folders…** extracts the source zips, **Settings…** configures the controller, Hatari and data folder, and **Quit** closes the app.
 
 ## Requirements
 
 - Python 3 with Tk (the standard `tkinter`)
-- [Pillow](https://python-pillow.org/) (`pip install -r requirements.txt`)
+- [Pillow](https://python-pillow.org/) and [PyInstaller](https://pyinstaller.org/) (`pip install -r requirements.txt`). PyInstaller is only needed for *Create standalone app…* and for building the app.
 - [Hatari](https://hatari.tuxfamily.org/) to launch games. Browsing works without it.
 - A TOS image saved as `data/hatari/tos.img`. The repository does not include one, because TOS is copyrighted: supply your own dump of an Atari ST ROM, or use the free [EmuTOS](https://emutos.sourceforge.io/). **TOS 1.04 (Rev. 2) is recommended** for the best game compatibility. The `data/hatari/atari_keys` Hatari config is included.
 

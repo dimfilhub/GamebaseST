@@ -10,7 +10,8 @@ class ActionButtons(ttk.Frame):
     def __init__(self, parent, commands):
         super().__init__(parent)
         specs = [("shot", "Screenshot"), ("cover", "Cover"), ("game", "Reveal game file"),
-                 ("launch", "Launch in Hatari")]
+                 ("launch", "Launch in Hatari"),
+                 ("standalone", "Create standalone app…")]
         self.buttons = {}
         for key, text in specs:
             b = ttk.Button(self, text=text, width=BUTTON_WIDTH, command=commands[key])
