@@ -23,10 +23,18 @@ jobs:
           - os: ubuntu-22.04
             name: linux
     runs-on: ${{ matrix.os }}
-    env:
-      TAG: ${{ github.event.release.tag_name || github.ref_name }}
     steps:
       - uses: actions/checkout@v7
+
+      - name: Work out the version
+        shell: bash
+        run: |
+          # Release builds use the release tag; manual runs use APP_VERSION from ui/app.py
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "TAG=${{ github.event.release.tag_name }}" >> "$GITHUB_ENV"
+          else
+            echo "TAG=v$(sed -n 's/^APP_VERSION = "\(.*\)"/\1/p' ui/app.py)" >> "$GITHUB_ENV"
+          fi
 
       - uses: actions/setup-python@v7
         with:
