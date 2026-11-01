@@ -10,6 +10,8 @@ from pathlib import Path
 
 import PyInstaller.__main__
 
+from standalone import StandaloneBuilder
+
 NAME = "GamebaseST"
 separator = ";" if sys.platform == "win32" else ":"
 args = [
@@ -21,6 +23,11 @@ args = [
     "--add-data", f"launcher{separator}launcher",
     "--add-data", f"README.md{separator}.",
 ]
+# App icon: .ico on Windows, .icns on macOS (Linux binaries cannot embed one).
+Path("build").mkdir(exist_ok=True)
+icon = StandaloneBuilder._make_icon(Path("images/icon.png"), Path("build/app_icon"))
+if icon:
+    args += ["--icon", str(icon)]
 if sys.platform != "darwin":  # Windows/Linux: single executable in dist/, next to the database
     args.append("--onefile")
 PyInstaller.__main__.run(args)

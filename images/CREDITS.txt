@@ -3,3 +3,7 @@ atari_1040stfm.jpg
   https://commons.wikimedia.org/wiki/File:Atari_1040_ST_FM_with_a_monochrome_monitor.jpg
   Licensed CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
   Scaled to 1280 px wide and re-encoded.
+
+icon.png
+  Atari-style joystick illustration, supplied by the project owner and used as the app icon
+  (padded to a 1024 px square from the original artwork).
